@@ -1041,7 +1041,7 @@ edge_spacing(GLFWEdge which) {
         case GLFW_EDGE_BOTTOM: edge = "bottom"; break;
         case GLFW_EDGE_LEFT: edge = "left"; break;
         case GLFW_EDGE_RIGHT: edge = "right"; break;
-        case GLFW_EDGE_NONE: edge = "left"; break; // GLFW_EDGE_NONE is considered as "top left"
+        case GLFW_EDGE_NONE: return 0;
     }
     if (!edge_spacing_func) {
         log_error("Attempt to call edge_spacing() without first setting edge_spacing_func");
@@ -1081,14 +1081,8 @@ calculate_layer_shell_window_size(
         spacing += (fonts_data->fcm.cell_height * config->y_size_in_cells) / yscale;
         *height = (uint32_t)(1. + spacing);
     } else {
-        double spacing_x = edge_spacing(GLFW_EDGE_LEFT);
-        spacing_x *= xdpi / 72.;
-        spacing_x += (fonts_data->fcm.cell_width * config->x_size_in_cells) / xscale;
-        double spacing_y = edge_spacing(GLFW_EDGE_TOP);
-        spacing_y *= ydpi / 72.;
-        spacing_y += (fonts_data->fcm.cell_height * config->y_size_in_cells) / yscale;
-        *width = (uint32_t)(1. + spacing_x);
-        *height = (uint32_t)(1. + spacing_y);
+        if (!*width) *width = monitor_width;
+        if (!*height) *height = monitor_height;
     }
 }
 

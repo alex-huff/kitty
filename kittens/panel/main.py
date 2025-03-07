@@ -212,7 +212,7 @@ def initial_window_size_func(opts: WindowSizeData, cached_values: dict[str, Any]
             spacing = es('top') + es('bottom')
             window_height = int(cell_height * args.lines / yscale + (dpi_y / 72) * spacing + 1)
             window_width = monitor_width
-        elif args.edge == 'background':
+        elif args.edge in {'background', 'none'}:
             window_width, window_height = monitor_width, monitor_height
         else:
             spacing = es('left') + es('right')
